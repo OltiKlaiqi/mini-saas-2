@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:minisaas}
+    username: ${POSTGRES_USER:mini}
+    password: ${POSTGRES_PASSWORD:mini}
+    hikari:
+      maximum-pool-size: 5
