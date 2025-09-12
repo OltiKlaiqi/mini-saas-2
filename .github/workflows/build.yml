@@ -25,7 +25,7 @@ jobs:
  
     # (Optional) Push Docker image to Docker Hub
     - name: Push Docker image
-      run: docker tag mini-saas-2 ${{ secrets.oltik1 }}/mini-saas-2 && docker push ${{ secrets.oltik1 }}/mini-saas-2
+      run: docker tag mini-saas-2 ${{ secrets.oltik1 }}/mini-saas-2:latest && docker push ${{ secrets.oltik1 }}/mini-saas-2:latest
  
     # (Optional) Deploy to remote server via SSH
     - name: Deploy via SSH
@@ -35,7 +35,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          docker pull ${{ secrets.oltik1 }}/mini-saas-2
-          docker stop mini-saas || true
-          docker rm mini-saas || true
-          docker run -d -p 5000:5000 --name mini-saas ${{ secrets.oltik1 }}/mini-saas-2
+          docker pull ${{ secrets.oltik1 }}/mini-saas-2:latest
+          docker stop mini-saas-2:latest || true
+          docker rm mini-saas-2:latest || true
+          docker run -d -p 5000:5000 --name mini-saas-2:latest ${{ secrets.oltik1 }}/mini-saas-2:latest
