@@ -23,11 +23,21 @@ jobs:
     - name: Build Docker image
       run: docker build -t mini-saas-2 .
  
-    # (Optional) Push Docker image to Docker Hub
-    - name: Push Docker image
-      run: docker tag mini-saas-2 ${{ secrets.oltik1 }}/mini-saas-2:latest && docker push ${{ secrets.oltik1 }}/mini-saas-2:latest
+# Log in to Docker Hub
+- name: Log in to Docker Hub
+  uses: docker/login-action@v3
+  with:
+    username: ${{ secrets.DOCKER_USERNAME }}
+    password: ${{ secrets.DOCKER_PASSWORD }}
+
+# Build and push Docker image
+- name: Build and push Docker image
+  run: |
+    docker build -t oltik1/mini-saas-2:latest .
+    docker push oltik1/mini-saas-2:latest
+
  
-    # (Optional) Deploy to remote server via SSH
+    # Deploy to remote server via SSH
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:
@@ -35,7 +45,6 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          docker pull ${{ secrets.oltik1 }}/mini-saas-2:latest
+          docker pull oltik1/mini-saas-2:latest
           docker stop mini-saas-2:latest || true
-          docker rm mini-saas-2:latest || true
-          docker run -d -p 5000:5000 --name mini-saas-2:latest ${{ secrets.oltik1 }}/mini-saas-2:latest
+          docker rm mini-saas-2:latest || truedocker run -d -p 5000:5000 --name mini-saas-2 oltik1/mini-saas-2:latest
