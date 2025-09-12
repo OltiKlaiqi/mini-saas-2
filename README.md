@@ -16,3 +16,5 @@ A lab project for:
 - `main` → stable, protected
 - `dev` → Spring Boot backend, Database setup, CI/CD pipelines
 
+[![CI/CD](https://github.com/OltiKlaiqi/mini-saas-2/actions/workflows/build.yml/badge.svg)](https://github.com/OltiKlaiqi/mini-saas-2/actions/workflows/build.yml)
+
