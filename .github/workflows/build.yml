@@ -34,7 +34,6 @@ jobs:
         docker tag oltik1/mini-saas-2:latest oltik1/mini-saas-2:${{ github.sha }}
         docker push oltik1/mini-saas-2:latest
         docker push oltik1/mini-saas-2:${{ github.sha }}
-
     # Deploy to remote server via SSH
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v1.0.3
@@ -42,15 +41,8 @@ jobs:
         host: ${{ secrets.AZURE_VM_HOST }}
         username: ${{ secrets.AZURE_VM_USER }}
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
-        port: ${{ secrets.AZURE_VM_SSH_PORT }}
         script: |
-          mkdir -p /opt/mini-saas-2
-          cd /opt/mini-saas-2
-          if [ ! -d .git ]; then
-            git clone https://github.com/OltiKlaiqi/mini-saas-2.git .
-          else
-            git reset --hard
-            git pull origin main
-          fi
-          docker-compose pull
-          docker-compose up -d --remove-orphans
+          docker pull oltik1/mini-saas-2:latest
+          docker stop mini-saas-2 || true
+          docker rm mini-saas-2 || true
+          docker run -d -p 5000:5000 --name mini-saas-2 oltik1/mini-saas-2:latest
