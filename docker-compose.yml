@@ -1,5 +1,3 @@
-version: "3.10"
-
 services:
   app:
     build: .
@@ -26,5 +24,44 @@ services:
     ports:
       - "5432:5432"
 
+  prometheus:
+    image: docker.io/prom/prometheus:v3.5.0
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+
+  grafana:
+    image: docker.io/grafana/grafana-oss:12.1.1
+    container_name: grafana
+    env_file:
+      - .env
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:v1.9.1
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - /:/host:ro
+    ports:
+      - "9100:9100"
+
 volumes:
   pgdata:
+  grafana-data:
+  prometheus-data:
+
+
