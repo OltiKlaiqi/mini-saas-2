@@ -34,7 +34,6 @@ jobs:
         docker tag oltik1/mini-saas-2:latest oltik1/mini-saas-2:${{ github.sha }}
         docker push oltik1/mini-saas-2:latest
         docker push oltik1/mini-saas-2:${{ github.sha }}
-
     # Deploy to remote server via SSH
     - name: Deploy via SSH
       uses: appleboy/ssh-action@v1.0.3
