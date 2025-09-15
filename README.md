@@ -5,7 +5,7 @@ A lab project for:
 - PostgreSQL database
 - Docker & Docker Compose
 - GitHub Actions CI/CD
-- Monitoring with Grafana
+- Monitoring with Grafan
 
 ## Getting Started
 1. Clone repo
